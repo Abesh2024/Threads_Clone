@@ -23,10 +23,6 @@ app.use((req, res, next) => {
   next()
 })
 
-// Increase the payload limit
-// app.use(bodyParser.json({ limit: '50mb' })); 
-// app.use(bodyParser.urlencoded({ limit: '50mb', extended: true })); 
-
 
 cloudinary.config({
 	cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
