@@ -159,14 +159,19 @@ const followUnfollow = async (req, res) => {
 
 
 const updateUserProfile = async (req, res) => {
-    const { name, email, password, userName, bio } = req.body;
+
+    const { name, email, userName, bio } = req.body;
     const { id } = req.params;
 	let { profilePic } = req.body;
-    req.user = user
+    // req.user = user
+    // console.log(req.body);
     // console.log(req.body);
     // console.log(req.user._id, "USER___ID");
+    console.log(req.user, "req.user,,,,,,,,,,>>>>>>>");
+    console.log(req.params.id);
     try {
-        const user = await UserModel.findOne(req.user.userId);
+        const user = await UserModel.findOne({ _id: req.user['_id'] });
+
         console.log(user);
 
         if (!user) {
@@ -177,21 +182,21 @@ const updateUserProfile = async (req, res) => {
             return res.status(403).json({ message: "You cannot update another user's profile" });
         }
 
-        if (password) {
-            const salt = bcrypt.genSaltSync(7);
-            const hashPass = bcrypt.hashSync(password, salt);
-            user.password = hashPass;
-        }
+        // if (password) {
+        //     const salt = bcrypt.genSaltSync(7);
+        //     const hashPass = bcrypt.hashSync(password, salt);
+        //     user.password = hashPass;
+        // }
 
 
-        // if (profilePic) {
-		// 	if (user.profilePic) {
-		// 		await cloudinary.uploader.destroy(user.profilePic.split("/").pop().split(".")[0]);
-		// 	}
+        if (profilePic) {
+			if (user.profilePic) {
+				await cloudinary.uploader.destroy(user.profilePic.split("/").pop().split(".")[0]);
+			}
 
-		// 	const uploadedResponse = await cloudinary.uploader.upload(profilePic);
-		// 	profilePic = uploadedResponse.secure_url;
-		// }
+			const uploadedResponse = await cloudinary.uploader.upload(profilePic);
+			profilePic = uploadedResponse.secure_url;
+		}
 
         user.name = name || user.name;
         user.userName = userName || user.userName;
@@ -205,7 +210,10 @@ const updateUserProfile = async (req, res) => {
         });
 
     } catch (err) {
-        console.error('Error in updateUserProfile:', err.message); // Log the error
+        if (err.code === 11000) {
+            // Handle duplicate key error
+            return res.status(400).json({ message: "Email or username already exists" });
+        }
         return res.status(500).json({
             success: false,
             error: `Something is wrong: ${err.message}`
