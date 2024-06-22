@@ -20,14 +20,13 @@ import axios from 'axios';
 
 export default function UpdateProfile() {
   const toast = toastFun();
-  const user = useRecoilValue(userAtom)
+	const [user, setUser] = useRecoilState(userAtom);
   console.log(user);
   const [input, setInput] = useState({
-    name: user.name,
-    userName: user.userName,
-    email: user.email,
-    bio: user.bio,
-    password: "",
+    name: "",
+    userName: "",
+    email: "",
+    bio: "",
   });
 
   const { handelImageChange, imgUrl } = UploadImage();
@@ -35,16 +34,17 @@ export default function UpdateProfile() {
   const handelSubmit = async (e) => {
     e.preventDefault();
 
-    const token = localStorage.getItem("auth-token");
+    // const token = localStorage.getItem("auth-token");
 
-    if (!token) {
-      toast("Error", "You are not authorized. Please log in.", "error");
-      return;
-    }
+    // if (!token) {
+    //   toast("Error", "You are not authorized. Please log in.", "error");
+    //   return;
+    // }
 
     try {
+      console.log(user.user['_id']);
       const res = await axios.put(
-        `http://localhost:5000/v1/user/updateuser/${user._id}`,
+        `http://localhost:5000/v1/user/updateuser/${user.user._id}`,
         { ...input, profilePic: imgUrl },
         {
           headers: {
@@ -55,6 +55,8 @@ export default function UpdateProfile() {
       );
 
       const data = res.data;
+      console.log(res);
+      console.log(data.user);
 
       if (data.error) {
         toast("Error", data.error, "error");
@@ -62,7 +64,7 @@ export default function UpdateProfile() {
       }
 
       toast("Success", "Profile updated successfully", "success");
-      setUser(data);
+      setUser(data.user);
       localStorage.setItem("user-threads", JSON.stringify(data));
     } catch (error) {
       toast("Error", error.message || error, "error");
@@ -87,7 +89,7 @@ export default function UpdateProfile() {
             </Stack>
           </FormControl>
           <FormControl>
-            <FormLabel>Full name</FormLabel>
+            <FormLabel fontSize="20">Full name</FormLabel>
             <Input
               placeholder="Full Name"
               _placeholder={{ color: 'gray.500' }}
@@ -97,7 +99,7 @@ export default function UpdateProfile() {
             />
           </FormControl>
           <FormControl>
-            <FormLabel>User name</FormLabel>
+            <FormLabel fontSize="20">User Name</FormLabel>
             <Input
               placeholder="UserName"
               _placeholder={{ color: 'gray.500' }}
@@ -107,7 +109,7 @@ export default function UpdateProfile() {
             />
           </FormControl>
           <FormControl>
-            <FormLabel>Email address</FormLabel>
+            <FormLabel fontSize="20">Email ID</FormLabel>
             <Input
               placeholder="your-email@example.com"
               _placeholder={{ color: 'gray.500' }}
@@ -117,7 +119,7 @@ export default function UpdateProfile() {
             />
           </FormControl>
           <FormControl>
-            <FormLabel>Bio</FormLabel>
+            <FormLabel fontSize="20">Bio</FormLabel>
             <Input
               placeholder="Bio"
               _placeholder={{ color: 'gray.500' }}
@@ -126,16 +128,7 @@ export default function UpdateProfile() {
               onChange={(e) => setInput({ ...input, bio: e.target.value })}
             />
           </FormControl>
-          <FormControl id="password">
-            <FormLabel>Password</FormLabel>
-            <Input
-              placeholder="password"
-              _placeholder={{ color: 'gray.500' }}
-              type="password"
-              value={input.password}
-              onChange={(e) => setInput({ ...input, password: e.target.value })}
-            />
-          </FormControl>
+        
           <Stack spacing={6} direction={['column', 'row']}>
             <Button
               bg={'red.400'}
