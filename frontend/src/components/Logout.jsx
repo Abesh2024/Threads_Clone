@@ -13,7 +13,7 @@ const Logout = () => {
 
     const handleLogout = async () => {
         try {
-            const response = await axios.post("http://localhost:5000/v1/user/logout", {}, {
+            const response = await axios.post("https://threads-clone-4-kqt9.onrender.com/v1/user/logout", {}, {
                 headers: {
                     "Content-Type": "application/json",
                 },

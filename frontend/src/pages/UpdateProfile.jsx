@@ -44,7 +44,7 @@ export default function UpdateProfile() {
     try {
       console.log(user.user['_id']);
       const res = await axios.put(
-        `http://localhost:5000/v1/user/updateuser/${user.user._id}`,
+        `http://9873464465/v1/user/updateuser/${user.user._id}`,
         { ...input, profilePic: imgUrl },
         {
           headers: {

@@ -24,7 +24,7 @@ export default function SignUp() {
 
     const handleSignup = async () => {
 		try {
-			const res = await fetch("http://localhost:5000/v1/user/signup", {
+			const res = await fetch("https://threads-clone-4-kqt9.onrender.com/v1/user/signup", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
