@@ -25,7 +25,7 @@ import userAtom from '../atoms/userAtom'
 
   const handelLogin = async () => {
     try {
-      const res = await axios.post("http://localhost:5000/v1/user/login", input, {
+      const res = await axios.post("https://threads-clone-4-kqt9.onrender.com/v1/user/login", input, {
           headers: {
               "Content-Type": "application/json",
           },
