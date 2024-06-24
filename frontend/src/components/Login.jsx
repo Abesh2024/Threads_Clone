@@ -22,16 +22,18 @@ export default function Login() {
   const handelLogin = async () => {
     try {
       console.log('Login attempt:', input);
+
       const res = await axios.post("https://threads-clone-4-kqt9.onrender.com/v1/user/login", input, {
         headers: {
           "Content-Type": "application/json",
         },
-        // withCredentials: true,
+        withCredentials: true,
       });
+      
       console.log(res, "from login com");
 
       if (res.data.error) { // Check res.data.error instead of res.error
-        toast("Error", res.data.error, "error");
+        toast("Error", res.response.data, "error");
         return;
       }
       const userData = res.data;
@@ -42,7 +44,7 @@ export default function Login() {
 
     } catch (error) {
       console.error('Login error:', error);
-      toast("Error", error.message || "Failed to connect to the server.", "error");
+      toast("Error", error.response.data.message || "Failed to connect to the server.", "error");
     }
   };
 
