@@ -83,7 +83,7 @@ const userLogin = async (req, res) => {
 		const user = await UserModel.findOne({ userName });
 		const isPasswordCorrect = await bcrypt.compare(password, user?.password || "");
 
-		if (!user || !isPasswordCorrect) return res.status(400).json({ error: "Invalid username or password" });
+		if (!user || !isPasswordCorrect) return res.status(400).json({ message: "Invalid username or password" });
 
         tokenGenerate(user._id, res);
 		if (user.isFrozen) {
@@ -101,8 +101,8 @@ const userLogin = async (req, res) => {
 			profilePic: user.profilePic,
 		});
 	} catch (error) {
-		res.status(500).json({ error: error.message });
-		console.log("Error in loginUser: ", error.message);
+		res.status(500).json({ error: "somrthing is wrong" });
+		// console.log("Error in loginUser: ", error.message);
 	}
 };
 
