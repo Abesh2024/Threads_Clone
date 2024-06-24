@@ -13,6 +13,7 @@ export default function SignUp() {
     const [showPassword, setShowPassword] = useState(false);
     const setAuthScreen = useSetRecoilState(authScreenAtom);
     const setUser = useSetRecoilState(userAtom)
+    // const toast = toastFun()
     const [input, setInput] = useState({
         name: "",
         userName: "",
@@ -41,6 +42,7 @@ export default function SignUp() {
 
 			localStorage.setItem("user-threads", JSON.stringify(data));
 			setUser(data);
+            toast("user signed up successfully")
 		} catch (error) {
 			toast("Error", error, "error");
 		}
