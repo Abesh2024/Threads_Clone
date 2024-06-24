@@ -21,7 +21,7 @@ export default function Login() {
 
   const handelLogin = async () => {
     try {
-      console.log('Login attempt:', input);
+      // console.log('Login attempt:', input);
 
       const res = await axios.post("https://threads-clone-4-kqt9.onrender.com/v1/user/login", input, {
         headers: {
@@ -30,7 +30,7 @@ export default function Login() {
         withCredentials: true,
       });
       
-      console.log(res, "from login com");
+      // console.log(res, "from login com");
 
       if (res.data.error) { // Check res.data.error instead of res.error
         toast("Error", res.response.data, "error");
