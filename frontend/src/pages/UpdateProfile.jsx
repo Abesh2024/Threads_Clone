@@ -55,8 +55,11 @@ export default function UpdateProfile() {
         }
       );
 
-      // const data = res.data;
+      const data = res.data;
+
       console.log(res);
+      console.log(data);
+
       // console.log(data.user);
 
             if (data.error) {
