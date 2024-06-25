@@ -86,6 +86,7 @@ const userLogin = async (req, res) => {
 		if (!user || !isPasswordCorrect) return res.status(400).json({ message: "Invalid username or password" });
 
         tokenGenerate(user._id, res);
+        
 		if (user.isFrozen) {
 			user.isFrozen = false;
 			await user.save();

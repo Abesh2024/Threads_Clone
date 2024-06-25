@@ -54,9 +54,9 @@ export default function UpdateProfile() {
           withCredentials: true,
         }
       );
-
-      // const data = res.data;
       console.log(res);
+
+      const data = res.data;
       // console.log(data.user);
 
       if (data.error) {
@@ -68,7 +68,7 @@ export default function UpdateProfile() {
       setUser(data.user);
       localStorage.setItem("user-threads", JSON.stringify(data));
     } catch (error) {
-      
+
       toast("Error", error.message || error, "error");
     }
   };
