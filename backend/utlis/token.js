@@ -6,10 +6,10 @@ const tokenGenerate = (_id, res) => {
 	});
 
 	res.cookie("jwt", token, {
-		httpOnly: true, // more secure
-		maxAge: 15 * 24 * 60 * 60 * 1000, // 15 days
-		sameSite: "strict", //cross-site request attacks
-        secure: process.env.NODE_ENV === "production",
+		maxAge: 15 * 24 * 60 * 60 * 1000,  //ms
+        sameSite: 'none',
+        secure: true,
+        path: '/',
 	});
 
 	return token;
