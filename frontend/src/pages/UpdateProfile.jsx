@@ -30,6 +30,7 @@ export default function UpdateProfile() {
   });
 
   const { handelImageChange, imgUrl } = UploadImage();
+  console.log(user._id, "hi user---->>>");
 
   const handelSubmit = async (e) => {
     e.preventDefault();
@@ -42,10 +43,10 @@ export default function UpdateProfile() {
     // }
 
     try {
-      console.log(user.user['_id']);
+      // console.log(user.user['_id']);
       const res = await axios.put(
-        `http://9873464465/v1/user/updateuser/${user.user._id}`,
-        { ...input, profilePic: imgUrl },
+        `https://threads-clone-4-kqt9.onrender.com/v1/user/updateuser/${user._id}`,
+        input,
         {
           headers: {
             "Content-Type": "application/json",
@@ -54,9 +55,9 @@ export default function UpdateProfile() {
         }
       );
 
-      const data = res.data;
+      // const data = res.data;
       console.log(res);
-      console.log(data.user);
+      // console.log(data.user);
 
       if (data.error) {
         toast("Error", data.error, "error");
@@ -67,6 +68,7 @@ export default function UpdateProfile() {
       setUser(data.user);
       localStorage.setItem("user-threads", JSON.stringify(data));
     } catch (error) {
+      
       toast("Error", error.message || error, "error");
     }
   };
