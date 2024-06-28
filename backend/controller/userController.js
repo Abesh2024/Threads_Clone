@@ -2,6 +2,7 @@ import UserModel from "../model/usermodel.js";
 import bcrypt from "bcryptjs";
 import tokenGenerate from "../utlis/token.js";
 import { v2 as cloudinary } from "cloudinary";
+import mongoose from "mongoose";
 
 const getUserProfile = async (req, res) => {
     const { userName } = req.params;
@@ -14,7 +15,7 @@ const getUserProfile = async (req, res) => {
         if(!user) return res.json({error: "user not found with this username"})
 
         res.status(200).json(user);
-        
+
     } catch (err) {
         res.status(500).json({ error: err.message });
         console.log("Error in getUserProfile: ", err.message);
