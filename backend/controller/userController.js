@@ -2,15 +2,15 @@ import UserModel from "../model/usermodel.js";
 import bcrypt from "bcryptjs";
 import tokenGenerate from "../utlis/token.js";
 import { v2 as cloudinary } from "cloudinary";
-import mongoose from "mongoose";
+// import mongoose from "mongoose";
 
 const getUserProfile = async (req, res) => {
     const { userName } = req.params;
 
     try {
-        let user;
+        // let user;
 
-        user = await UserModel.findOne({userName}).select("-password").select("-updatedAt")
+        const user = await UserModel.findOne({userName}).select("-password")
 
         if(!user) return res.json({error: "user not found with this username"})
 
