@@ -42,7 +42,8 @@ export default function SignUp() {
 
 			localStorage.setItem("user-threads", JSON.stringify(data));
 			setUser(data);
-            toast("user signed up successfully")
+            toast("success", "user signed up successfully", "success",)
+
 		} catch (error) {
 			toast("Error", error, "error");
 		}

@@ -4,26 +4,17 @@ import tokenGenerate from "../utlis/token.js";
 import { v2 as cloudinary } from "cloudinary";
 
 const getUserProfile = async (req, res) => {
-    const { name } = req.params;
+    const { userName } = req.params;
 
     try {
         let user;
 
-        // query is userId
-        if (mongoose.Types.ObjectId.isValid(name)) {
-            user = await UserModel.findOne({ _id: query })
-                .select("-password")
-                .select("-updatedAt");
-        } else {
-            // query is username
-            user = await UserModel.findOne({ username: query })
-                .select("-password")
-                .select("-updatedAt");
-        }
+        user = await UserModel.findOne({userName}).select("-password").select("-updatedAt")
 
-        if (!user) return res.status(404).json({ error: "User not found" });
+        if(!user) return res.json({error: "user not found with this username"})
 
         res.status(200).json(user);
+        
     } catch (err) {
         res.status(500).json({ error: err.message });
         console.log("Error in getUserProfile: ", err.message);
@@ -51,6 +42,7 @@ const userSignup = async (req, res) => {
             email,
             userName,
             password: hashedPassword, // Ensure password field is correctly mapped
+            profilePic: user.profilePic
         });
         await user.save();
 
@@ -224,9 +216,8 @@ const updateUserProfile = async (req, res) => {
         user.profilePic = profilePic || user.profilePic;
 
         await user.save();
-        res.json({
-            user,
-        });
+        res.json({message: "user updated successfully", user});
+
     } catch (err) {
         if (err.code === 11000) {
             // Handle duplicate key error
