@@ -2,15 +2,22 @@ import UserModel from "../model/usermodel.js";
 import bcrypt from "bcryptjs";
 import tokenGenerate from "../utlis/token.js";
 import { v2 as cloudinary } from "cloudinary";
+import mongoose from "mongoose";
 // import mongoose from "mongoose";
 
 const getUserProfile = async (req, res) => {
-    const { userName } = req.params;
+    /* query is either gonna be userName or userId */
+    const { query } = req.params;
 
     try {
-        // let user;
+        let user;
 
-        const user = await UserModel.findOne({userName}).select("-password")
+        /* query s userId */
+        if(mongoose.Types.ObjectId.isValid(query)) {
+            user = await UserModel.findOne({_id: query}).select("-password")
+        } else {
+         user = await UserModel.findOne({userName: query}).select("-password")
+        }
 
         if(!user) return res.json({error: "user not found with this username"})
 
@@ -43,7 +50,7 @@ const userSignup = async (req, res) => {
             email,
             userName,
             password: hashedPassword, // Ensure password field is correctly mapped
-            profilePic: user.profilePic
+            // profilePic: user.profilePic
         });
         await user.save();
 
@@ -97,7 +104,7 @@ const userLogin = async (req, res) => {
             _id: user._id,
             name: user.name,
             email: user.email,
-            username: user.userName,
+            userName: user.userName,
             bio: user.bio,
             profilePic: user.profilePic,
         });

@@ -21,6 +21,8 @@ import axios from "axios";
 export default function UpdateProfile() {
   const toast = toastFun();
   const [user, setUser] = useRecoilState(userAtom);
+  const [updating, setUpdating] = useState(false)
+
   console.log(user);
   const [input, setInput] = useState({
     name: "",
@@ -35,7 +37,8 @@ export default function UpdateProfile() {
 
   const handelSubmit = async (e) => {
     e.preventDefault();
-
+    if(updating) return;
+    setUpdating(true)
     // const token = localStorage.getItem("auth-token");
 
     // if (!token) {
@@ -46,7 +49,7 @@ export default function UpdateProfile() {
     try {
       // console.log(user.user['_id']);
       const res = await axios.put(
-        `https://threads-clone-4-kqt9.onrender.com/v1/user/updateuser/${user._id}`,
+        `http://localhost:10000/v1/user/updateuser/${user._id}`,
         {...input, profilePic: imgUrl},
         {
           headers: {
@@ -70,6 +73,8 @@ export default function UpdateProfile() {
     } catch (error) {
 
       toast("Error", error.message || error, "error");
+    } finally {
+      setUpdating(false)
     }
   };
 
@@ -181,6 +186,7 @@ export default function UpdateProfile() {
               w="full"
               _hover={{ bg: "blue.500" }}
               type="submit"
+              isLoading={updating}
             >
               Submit
             </Button>

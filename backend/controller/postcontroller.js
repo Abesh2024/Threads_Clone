@@ -1,9 +1,12 @@
 import PostModel from "../model/postModel.js";
 import UserModel from "../model/usermodel.js";
+import { v2 as cloudinary } from "cloudinary";
+
 
 const createPost = async (req, res) => {
-    const { postedBy, text, image } = req.body;
-
+    const { postedBy, text } = req.body;
+	let { img } = req.body;
+	console.log(req.user);
     try {
 
         if (!postedBy || !text) {
@@ -21,7 +24,12 @@ const createPost = async (req, res) => {
 			return res.status(400).json({ error: `Text must be less than ${maxLength} characters` });
 		}
 
-        const newPost = new PostModel({ postedBy, text, image });
+		if (img) {
+			const uploadedResponse = await cloudinary.uploader.upload(img);
+			img = uploadedResponse.secure_url;
+		}
+
+        const newPost = new PostModel({ postedBy, text, img });
 		await newPost.save();
 
 		res.status(201).json(newPost);
@@ -57,10 +65,10 @@ const deletePost = async (req, res) => {
 			return res.status(401).json({ error: "Unauthorized to delete post" });
 		}
 
-		// if (post.img) {
-		// 	const imgId = post.img.split("/").pop().split(".")[0];
-		// 	await cloudinary.uploader.destroy(imgId);
-		// }
+		if (post.img) {
+			const imgId = post.img.split("/").pop().split(".")[0];
+			await cloudinary.uploader.destroy(imgId);
+		}
 
 		await PostModel.findByIdAndDelete(req.params.id);
 
@@ -104,18 +112,18 @@ const replyToPost = async (req, res) => {
 		const postId = req.params.id;
 		const userId = req.user._id;
 		const userProfilePic = req.user.profilePic;
-		const username = req.user.username;
+		const userName = req.user.userName;
 
 		if (!text) {
 			return res.status(400).json({ error: "Text field is required" });
 		}
 
-		const post = await Post.findById(postId);
+		const post = await PostModel.findById(postId);
 		if (!post) {
 			return res.status(404).json({ error: "Post not found" });
 		}
 
-		const reply = { userId, text, userProfilePic, username };
+		const reply = { userId, text, userProfilePic, userName };
 
 		post.replies.push(reply);
 		await post.save();
@@ -127,9 +135,13 @@ const replyToPost = async (req, res) => {
 };
 
 const getFeedPosts = async (req, res) => {
+	// console.log("HIIII");
+	// console.log(req.user, "12345678");
 	try {
 		const userId = req.user._id;
+		// console.log(userId)
 		const user = await UserModel.findById(userId);
+		// console.log(user);
 		if (!user) {
 			return res.status(404).json({ error: "User not found" });
 		}
@@ -140,25 +152,32 @@ const getFeedPosts = async (req, res) => {
 
 		res.status(200).json(feedPosts);
 	} catch (err) {
-		res.status(500).json({ error: err.message });
+		res.status(500).json({ message: err.message, message: "error found here" });
 	}
 };
 
 const getUserPosts = async (req, res) => {
-	const { username } = req.params;
+	const { userName } = req.params;
+	console.log("Received userName:", userName);
+
 	try {
-		const user = await UserModel.findOne({ username });
+		const user = await UserModel.findOne({ userName });
+		console.log("User query result:", user);
+
 		if (!user) {
 			return res.status(404).json({ error: "User not found" });
 		}
 
 		const posts = await PostModel.find({ postedBy: user._id }).sort({ createdAt: -1 });
+		console.log("Posts query result:", posts);
 
 		res.status(200).json(posts);
 	} catch (error) {
+		console.error("Error fetching user posts:", error);
 		res.status(500).json({ error: error.message });
 	}
 };
+
 
 const postControllers = {createPost, getPost, deletePost, likeUnlikePost, replyToPost, getFeedPosts, getUserPosts}
 
