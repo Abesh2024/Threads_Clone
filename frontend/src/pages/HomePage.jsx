@@ -13,7 +13,7 @@ const HomePage = () => {
     const getFeedPost = async () => {
       setLoading(true)
       try {
-        const res = await fetch(`http://localhost:10000/api/post/feed`, {
+        const res = await fetch(`https://threads-clone-m8if.onrender.com/api/post/feed`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

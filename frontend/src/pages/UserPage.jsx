@@ -27,7 +27,7 @@ const UserPage = () => {
     const getPosts = async ()=> {
       setFetchingPosts(true)
       try {
-        const res = await fetch(`http://localhost:10000/api/post/user/${userId}`, {
+        const res = await fetch(`https://threads-clone-m8if.onrender.com/api/post/user/${userId}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

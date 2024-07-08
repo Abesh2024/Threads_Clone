@@ -12,7 +12,7 @@ const useGetUserProf = () => {
   useEffect(() => {
     const getUser = async () => {
       try {
-        const res = await fetch(`http://localhost:10000/v1/user/profile/${userId}`, {
+        const res = await fetch(`https://threads-clone-m8if.onrender.com/v1/user/profile/${userId}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

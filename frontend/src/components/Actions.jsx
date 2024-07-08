@@ -29,7 +29,7 @@ const Actions = ({ post: post_ }) => {
 		if (liking) return
 		setLiking(true)
 		try {
-			const res = await fetch("http://localhost:10000/api/post/like/" + post._id, {
+			const res = await fetch("https://threads-clone-m8if.onrender.com/api/post/like/" + post._id, {
 				method: "PUT",
 				headers: {
 					"Content-Type": "application/json"
