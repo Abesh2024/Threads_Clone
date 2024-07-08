@@ -40,15 +40,16 @@ const HomePage = () => {
     <>
       {!loading && posts.length === 0 && <h1>Follow some users to sees feed Posts</h1>}
 
-      {loading && (
+      {loading ? (
         <Flex justify="center">
           <Spinner size="xl"/>
         </Flex>
-      )}
-
-      {posts.map ( (post)=> (
+      ): (posts.map ( (post) => (
         <Post key={post._id} post={post} postedBy={post.postedBy} />
-      ))}
+      )))
+
+      }
+
     </>
   )
 }

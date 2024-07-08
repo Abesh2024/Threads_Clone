@@ -17,11 +17,15 @@ import userAtom from "../atoms/userAtom";
 import UploadImage from "../hooks/UploadImage";
 import toastFun from "../hooks/showToast";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+
 
 export default function UpdateProfile() {
+  // const currentUser = useRecoilValue(userAtom)
   const toast = toastFun();
   const [user, setUser] = useRecoilState(userAtom);
   const [updating, setUpdating] = useState(false)
+  const navigate = useNavigate()
 
   console.log(user);
   const [input, setInput] = useState({
@@ -70,6 +74,7 @@ export default function UpdateProfile() {
       toast("Success", "Profile updated successfully", "success");
       setUser(data.user);
       localStorage.setItem("user-threads", JSON.stringify(data.user));
+      navigate(`/${user.userName}`)
     } catch (error) {
 
       toast("Error", error.message || error, "error");

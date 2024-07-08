@@ -1,11 +1,7 @@
 import React from 'react'
-// import { Link } from 'react-router-dom'
 import { Link, useNavigate } from 'react-router-dom'
-// import zuckAvater from '../assets/zuck-avatar.png'
-// import post1 from '../assets/post1.png'
 import verified from '../assets/verified.png'
-import { Box, Flex, VStack, Text, Avatar, Menu, MenuButton, Portal, MenuList, MenuItem, Image } from "@chakra-ui/react"
-// import { BsThreeDots } from 'react-icons/bs'
+import { Box, Flex, Text, Avatar, Image } from "@chakra-ui/react"
 import Actions from './Actions'
 import { useEffect, useState } from 'react'
 import toastFun from '../hooks/showToast'
@@ -74,6 +70,7 @@ const Post = ({post, postedBy }) => {
             }
 
             toast("success", "post deleated", "success")
+            
             setPosts((prev) => prev.filter((p) => p._id !== post._id))
         } catch (error) {
             toast("error", error, "error")

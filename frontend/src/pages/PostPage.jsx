@@ -24,7 +24,7 @@ const PostPage = () => {
   useEffect(() => {
     const getPost = async () => {
       try {
-        const res = await fetch(`${process.env.VITE_API_URL}/api/post/${pid}`, {
+        const res = await fetch(`https://threads-clone-m8if.onrender.com/api/post/${pid}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json"
