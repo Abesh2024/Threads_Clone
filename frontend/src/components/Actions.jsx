@@ -64,7 +64,7 @@ const Actions = ({ post: post_ }) => {
 			if(replying) return;
 			setReplying(true)
 			try {
-				const res = await fetch("http://localhost:10000/api/post/reply/" + post._id, {
+				const res = await fetch("https://threads-clone-3-sjc7.onrender.com/api/post/reply/" + post._id, {
 					method: "PUT",
 					headers: {
 						"Content-Type": "application/json"
