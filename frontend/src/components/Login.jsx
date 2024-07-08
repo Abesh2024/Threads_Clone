@@ -23,7 +23,7 @@ export default function Login() {
     try {
       // console.log('Login attempt:', input);
 
-      const res = await axios.post("https://threads-clone-m8if.onrender.com/v1/user/login", input, {
+      const res = await axios.post(`${process.env.VITE_API_URL}/v1/user/login`, input, {
         headers: {
           "Content-Type": "application/json",
         },

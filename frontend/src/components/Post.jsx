@@ -27,7 +27,7 @@ const Post = ({post, postedBy }) => {
     useEffect(() => {
         const getUser = async () => {
             try {
-                const res = await fetch(`https://threads-clone-3-sjc7.onrender.com/v1/user/profile/` + postedBy, {
+                const res = await fetch(`${process.env.VITE_API_URL}/v1/user/profile/` + postedBy, {
                     method: "GET",
                     headers: {
                       "Content-Type": "application/json",
