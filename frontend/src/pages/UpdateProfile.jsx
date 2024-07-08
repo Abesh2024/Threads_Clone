@@ -49,7 +49,7 @@ export default function UpdateProfile() {
     try {
       // console.log(user.user['_id']);
       const res = await axios.put(
-        `${process.env.VITE_API_URL}/v1/user/updateuser/${user._id}`,
+        `https://threads-clone-m8if.onrender.com/v1/user/updateuser/${user._id}`,
         {...input, profilePic: imgUrl},
         {
           headers: {

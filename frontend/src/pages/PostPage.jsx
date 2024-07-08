@@ -50,7 +50,7 @@ const PostPage = () => {
     try {
         if(!window.confirm("this post will be deleated")) return;
 
-        const res = await fetch(`${process.env.VITE_API_URL}/api/post/${post._id}`, {
+        const res = await fetch(`https://threads-clone-m8if.onrender.com/api/post/${post._id}`, {
             method: "DELETE",
             headers: {
                 "Content-Type":"application/json"

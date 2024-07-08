@@ -56,7 +56,7 @@ const CreatePost = () => {
     const handleCreatePost = async () => {
         try {
             setLoading("Loading...")
-            const res = await fetch(`${process.env.VITE_API_URL}/api/post/create-post`, {
+            const res = await fetch(`https://threads-clone-m8if.onrender.com/api/post/create-post`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
