@@ -6,20 +6,23 @@ import Comment from '../components/Comment';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import toastFun from '../hooks/showToast';
 import useGetUserProf from '../hooks/useGetUserProf';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import userAtom from '../atoms/userAtom';
 import {formatDistanceToNow} from "date-fns"
 import { DeleteIcon } from '@chakra-ui/icons';
+import postsAtom from '../atoms/postsAtom';
 
 
 const PostPage = () => {
   const { user, loading } = useGetUserProf()
   const { pid } = useParams()
-  const [post, setPost] = useState(null)
+  // const [post, setPost] = useState(null)
+  const [posts, setPosts] = useRecoilState(postsAtom);
   const toast = toastFun()
   const currentUser = useRecoilValue(userAtom)
   const navigate = useNavigate()
 
+  const currentPost = posts[0];
 
   useEffect(() => {
     const getPost = async () => {
@@ -37,20 +40,20 @@ const PostPage = () => {
           return;
         }
 
-        setPost(data);
+        setPosts([data]);
       } catch (error) {
         toast("Error", error.message, "error");
       }
     };
     getPost();
-  }, [toast, pid]);
+  }, [toast, pid, setPosts]);
 
 
   const deletePost = async () => {
     try {
         if(!window.confirm("this post will be deleated")) return;
 
-        const res = await fetch(`https://threads-clone-m8if.onrender.com/api/post/${post._id}`, {
+        const res = await fetch(`https://threads-clone-m8if.onrender.com/api/post/${currentPost._id}`, {
             method: "DELETE",
             headers: {
                 "Content-Type":"application/json"
@@ -83,7 +86,7 @@ const PostPage = () => {
     )
   }
 
-  if (!post) return null;
+  if (!currentPost) return null;
 
   return (
     <>
@@ -97,22 +100,22 @@ const PostPage = () => {
         </Flex>
         <Flex gap='4' alignContent="center">
           <Text fontSize="xs" textAlign="right" color="gray.light">
-            {formatDistanceToNow(new Date(post.createdAt))} ago
+            {formatDistanceToNow(new Date(currentPost.createdAt))} ago
           </Text>
 
-          {currentUser?._id === post.postedBy && <DeleteIcon onClick={deletePost} />}
+          {currentUser?._id === currentPost.postedBy && <DeleteIcon onClick={deletePost} />}
         </Flex>
       </Flex>
 
-      <Text my="3">{post.text}</Text>
-      {post.img && (
+      <Text my="3">{currentPost.text}</Text>
+      {currentPost.img && (
         <Box position="relative" borderRadius="6" overflow="hidden" border="1px solid gray.light">
-          <Image src={post.img} w="full" />
+          <Image src={currentPost.img} w="full" />
         </Box>
       )}
 
       <Flex gap='3' my="3">
-        <Actions post={post} />
+        <Actions post={currentPost} />
       </Flex>
 
       <Divider my="3" />
@@ -127,11 +130,11 @@ const PostPage = () => {
 
       <Divider my="3" />
 
-      {post.replies.map((reply => (
+      {currentPost.replies.map((reply => (
         <Comment 
         key={reply._id}
         reply={reply}
-        lastReply={reply._id === post.replies[post.replies.length - 1]._id}
+        lastReply={reply._id === currentPost.replies[currentPost.replies.length - 1]._id}
       />
       )))}
       

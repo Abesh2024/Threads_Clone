@@ -1,17 +1,18 @@
 import { Flex, Text, Box, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, ModalFooter, FormControl, FormLabel, Input, Button, useDisclosure } from "@chakra-ui/react";
 
 import { useState } from "react";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import userAtom from "../atoms/userAtom";
 import toastFun from "../hooks/showToast";
 import { json } from "react-router-dom";
+import postsAtom from "../atoms/postsAtom";
 
-const Actions = ({ post: post_ }) => {
+const Actions = ({ post }) => {
 
 	const user = useRecoilValue(userAtom)
-	const [liked, setLiked] = useState(post_.likes.includes(user?._id));
+	const [liked, setLiked] = useState(post.likes.includes(user?._id));
 	const toast = toastFun()
-	const [post, setPost] = useState(post_)
+	const [posts, setPosts] = useRecoilState(postsAtom)
 	const [liking, setLiking] = useState(false)
 	const [replying, setReplying] = useState(false)
 	const [reply, setReply] = useState("")
@@ -44,9 +45,22 @@ const Actions = ({ post: post_ }) => {
 			}
 
 			if (!liked) {
-				setPost({ ...post, likes: [...post.likes, user._id] })
+				// setPosts({ ...posts, likes: [...post.likes, user._id] })
+				const updatedPost = posts.map((p) => {
+					if(p._id === post._id) {
+						return {...p, likes: [...p.likes, post._id]}
+					}
+					return p;
+				})
+				setPosts(updatedPost)
 			} else {
-				setPost({ ...post, likes: post.likes.filter(id => id !== user._id) })
+				const updatedPost = posts.map((p) => {
+					if(p._id === post._id) {
+						return {...p, likes: p.likes.filter((id) => id != user._id)}
+					}
+					return p;
+				})
+				setPosts(updatedPost)
 			}
 			setLiked(!liked)
 
@@ -79,7 +93,14 @@ const Actions = ({ post: post_ }) => {
 					return;
 				}
 
-				setPost({...post, replies: [...post.replies, data.reply]})
+				// setPosts({...post, replies: [...post.replies, data.reply]})
+				const updatedPosts = posts.map((p) => {
+					if(p._id === post._id) {
+						return {...p, replies: [...p.replies, data]}
+					}
+					return p;
+				})
+				setPosts(updatedPosts)
 				toast("success", "replied to the post", "success")
 				console.log(data);
 				onClose()

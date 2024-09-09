@@ -8,15 +8,15 @@ import userAtom from "../atoms/userAtom";
 import { Link as routerLink } from "react-router-dom";
 import { useState } from "react";
 import toastFun from "../hooks/showToast";
+import useFollowUnfollow from "../hooks/useFollowUnfollow";
 
 const UserHeader = ({user}) => {
 
     // const toast = useToast()
     const toast = toastFun()
     const currentUser = useRecoilValue(userAtom);  //loggedin user
-    const [following, setFollowing] = useState(user.followers.includes(currentUser?._id))
-    const [updating, setUpdating] = useState(false)
-
+    const {handelFollowUnfolloow, updating, following} = useFollowUnfollow(user)
+    
     const copyURL = (e) => {
         // e.preventDefault()
         const url = window.location.href;
@@ -27,46 +27,6 @@ const UserHeader = ({user}) => {
 
     // console.log(user);
 
-    const handelFollowUnfolloow = async() => {
-        if(!currentUser) {
-            toast("error", "Register as an user first", "error")
-            return;
-        }
-        if(updating) return
-        setUpdating(true)
-        try {
-            const res = await fetch(`https://threads-clone-m8if.onrender.com/v1/user/follow/${user._id}`, {
-                method: "POST", 
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                credentials: 'include',
-            })
-
-            const data = await res.json()
-            console.log(data);
-            // console.log(user._id);
-            if(data.error){
-                toast("error", data.error, "error")
-                return;
-            }
-
-            if(following) {
-                toast("success", `unfollowed ${user.name}`, "success")
-                user.followers.pop()
-            } else {
-                toast("success", `Followed ${user.name}`, "success")
-                user.followers.push(currentUser?._id)
-            }
-
-            setFollowing(!following)
-
-        } catch (error) {
-        toast("error", error, "error")
-        } finally {
-            setUpdating(false)
-        }
-    }
 
     return (
         <>

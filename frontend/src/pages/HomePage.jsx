@@ -1,17 +1,21 @@
-import { Button, Flex, Spinner } from '@chakra-ui/react'
+import { Button, Flex, Spinner, Box } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import toastFun from '../hooks/showToast'
 import Post from '../components/Post'
+import { useRecoilState } from 'recoil'
+import postsAtom from '../atoms/postsAtom'
+import SuggestedUsers from '../components/SuggestedUsers'
 
 const HomePage = () => {
   const toast = toastFun()
-  const [posts, setPosts] = useState([])
+  const [posts, setPosts] = useRecoilState(postsAtom)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const getFeedPost = async () => {
       setLoading(true)
+      setPosts([])
       try {
         const res = await fetch(`https://threads-clone-m8if.onrender.com/api/post/feed`, {
           method: "GET",
@@ -22,35 +26,37 @@ const HomePage = () => {
         })
         const data = await res.json()
         // console.log(data);
-        if(data.error) {
-          toast("error", data.error , "error")
+        if (data.error) {
+          toast("error", data.error, "error")
           return;
         }
         setPosts(data)
       } catch (error) {
-        toast ("error", error.message, "error")
+        toast("error", error.message, "error")
       } finally {
         setLoading(false)
       }
     }
     getFeedPost()
-  }, [toast])
+  }, [toast, setPosts])
 
   return (
-    <>
-      {!loading && posts.length === 0 && <h1>Follow some users to sees feed Posts</h1>}
-
-      {loading ? (
+    <Flex gap="10" alignItems="flex-start">
+    <Box flex={70}>
+    {!loading && posts.length === 0 && <h1>Follow some users to sees feed Posts</h1>}
+      {loading &&
         <Flex justify="center">
-          <Spinner size="xl"/>
-        </Flex>
-      ): (posts.map ( (post) => (
+          <Spinner size="xl" />
+        </Flex>}
+
+      {posts.map((post) => (
         <Post key={post._id} post={post} postedBy={post.postedBy} />
-      )))
-
-      }
-
-    </>
+      ))}
+    </Box>
+    <Box flex={30}>
+     <SuggestedUsers/>
+    </Box>
+    </Flex>
   )
 }
 
