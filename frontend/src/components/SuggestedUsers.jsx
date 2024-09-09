@@ -1,4 +1,4 @@
-import { Box, Flex, Skeleton, SkeletonCircle, Toast } from '@chakra-ui/react';
+import { Box, Flex, Skeleton, SkeletonCircle } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react'
 import toastFun from '../hooks/showToast';
 import SuggestedUser from './SuggestedUser';
@@ -6,25 +6,25 @@ import SuggestedUser from './SuggestedUser';
 const SuggestedUsers = () => {
     const [loading, setLoading] = useState(true);
     const [suggestedUsers, setSuggestedUsers] = useState([]);
-    const toast = toastFun();
+    const toast = toastFun()
 
     useEffect(()=> {
         const getSuggestedUsers = async () => {
 			setLoading(true);
 			try {
-				const res = await fetch("/v1/user/suggested");
+				const res = await fetch("https://threads-clone-m8if.onrender.com/v1/user/suggested");
+				// console.log(res, "abeshhhhhhhhhh");
 				const data = await res.json();
-				console.log(data, "abeshhhhhhhhhh");
 				
 				if (data.error) {
 					toast("Error", data.error, "error");
-					console.log(data.error);
+					// console.log(data.error);
 					return;
 				}
 				setSuggestedUsers(data);
 			} catch (error) {
 				toast("Error", error.message, "error");
-				console.log("error message");
+				// console.log("error message");
 			} finally {
 				setLoading(false);
 			}
