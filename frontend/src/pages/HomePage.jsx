@@ -17,12 +17,12 @@ const HomePage = () => {
       setLoading(true)
       setPosts([])
       try {
-        const res = await fetch(`https://threads-clone-m8if.onrender.com/api/post/feed`, {
+        const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/post/feed`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
           },
-          credentials: 'include',
+          credential: 'include',
         })
         const data = await res.json()
         // console.log(data);

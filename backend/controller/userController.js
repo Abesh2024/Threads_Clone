@@ -240,33 +240,33 @@ const updateUserProfile = async (req, res) => {
     }
 };
 
-const suggestedUser = async (req, res) => {
-    try {
-        	// exclude the current user from suggested users array and exclude users that current user is already following
-		const userId = req.user._id;
+// const suggestedUser = async (req, res) => {
+//     try {
+//         	// exclude the current user from suggested users array and exclude users that current user is already following
+// 		const userId = req.user._id;
 
-		const usersFollowedByYou = await UserModel.findById(userId).select("following");
+// 		const usersFollowedByYou = await UserModel.findById(userId).select("following");
 
-		const users = await UserModel.aggregate([
-			{
-				$match: {
-					_id: { $ne: userId },
-				},
-			},
-			{
-				$sample: { size: 10 },
-			},
-		]);
-		const filteredUsers = users.filter((user) => !usersFollowedByYou.following.includes(user._id));
-		const suggestedUsers = filteredUsers.slice(0, 4);
+// 		const users = await UserModel.aggregate([
+// 			{
+// 				$match: {
+// 					_id: { $ne: userId },
+// 				},
+// 			},
+// 			{
+// 				$sample: { size: 10 },
+// 			},
+// 		]);
+// 		const filteredUsers = users.filter((user) => !usersFollowedByYou.following.includes(user._id));
+// 		const suggestedUsers = filteredUsers.slice(0, 4);
 
-		suggestedUsers.forEach((user) => (user.password = null));
+// 		suggestedUsers.forEach((user) => (user.password = null));
 
-		res.status(200).json(suggestedUsers);
-    } catch (error) {
-		res.status(500).json({ error: error.message });
-    }
-}
+// 		res.status(200).json(suggestedUsers);
+//     } catch (error) {
+// 		res.status(500).json({ error: error.message });
+//     }
+// }
 
 const logics = {
     userSignup,
@@ -275,7 +275,7 @@ const logics = {
     followUnfollow,
     updateUserProfile,
     getUserProfile,
-    suggestedUser
+    // suggestedUser
 };
 
 export default logics;

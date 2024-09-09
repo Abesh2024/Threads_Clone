@@ -53,7 +53,7 @@ export default function UpdateProfile() {
     try {
       // console.log(user.user['_id']);
       const res = await axios.put(
-        `https://threads-clone-m8if.onrender.com/v1/user/updateuser/${user._id}`,
+        `${process.env.REACT_APP_API_BASE_URL}/v1/user/updateuser/${user._id}`,
         {...input, profilePic: imgUrl},
         {
           headers: {

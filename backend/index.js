@@ -11,7 +11,7 @@ import { v2 as cloudinary } from "cloudinary";
 configDotenv();
 const app = express();
 const corsOptions = {
-  origin: ['http://localhost:5173', 'https://threads-clone-ebyp.vercel.app', "https://threads-clone-m8if.onrender.com"], // Frontend URL
+  origin: ['http://localhost:5173', "http://localhost:10000"], // Frontend URL
   credentials: true, // Allow credentials (cookies) to be included
 };
 

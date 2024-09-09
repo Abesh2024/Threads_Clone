@@ -1,14 +1,17 @@
+import { Button } from '@chakra-ui/react';
 import axios from 'axios';
-import toastFun from './showToast';
+import React from 'react';
 import { useSetRecoilState } from 'recoil';
 import userAtom from '../atoms/userAtom';
+import toastFun from '../hooks/showToast';
+import { FiLogOut } from "react-icons/fi";
 
 
-const useLogout = () => {
+const Logout = () => {
     const toast = toastFun();
     const setUser = useSetRecoilState(userAtom); // Correct usage of useSetRecoilState
 
-    const logout = async () => {
+    const handleLogout = async () => {
         try {
             const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/v1/user/logout`, {
                 headers: {
@@ -30,7 +33,15 @@ const useLogout = () => {
             toast("Error", error.message || "Failed to connect to the server.", "error"); 
         }
     };
-    return logout;
-}
 
-export default useLogout
+    return (
+        <Button
+            position={"fixed"} top={"30px"} right={"30px"} size={"sm"}
+            onClick={handleLogout}
+        >
+            <FiLogOut  size="35"/>
+        </Button>
+    );
+};
+
+export default Logout;

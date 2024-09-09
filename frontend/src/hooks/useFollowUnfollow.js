@@ -18,7 +18,7 @@ const useFollowUnfollow = (user) => {
         if(updating) return
         setUpdating(true)
         try {
-            const res = await fetch(`https://threads-clone-m8if.onrender.com/v1/user/follow/${user._id}`, {
+            const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/v1/user/follow/${user._id}`, {
                 method: "POST", 
                 headers: {
                     "Content-Type": "application/json",

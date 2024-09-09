@@ -5,7 +5,7 @@ import protectRoute from '../middleware/protectedRoute.js';
 const userRouter = express.Router();
 
 
-userRouter.get("/suggested", protectRoute, logics.getUserProfile)
+// userRouter.get("/suggested", protectRoute, logics.suggestedUser)
 userRouter.get("/profile/:query", logics.getUserProfile)
 userRouter.post("/signup", logics.suggestedUser)
 userRouter.post("/login", logics.userLogin)

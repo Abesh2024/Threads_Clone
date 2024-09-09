@@ -12,7 +12,7 @@ const SuggestedUsers = () => {
         const getSuggestedUsers = async () => {
 			setLoading(true);
 			try {
-				const res = await fetch("https://threads-clone-m8if.onrender.com/v1/user/suggested");
+				const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/v1/user/suggested`);
 				// console.log(res, "abeshhhhhhhhhh");
 				const data = await res.json();
 				
@@ -36,7 +36,7 @@ const SuggestedUsers = () => {
     <div>
         <h1>Suggested User</h1>
       <Flex direction={"column"} gap={4}>
-				{!loading && suggestedUsers.map((user) => <SuggestedUser key={user._id} user={user} />)}
+				{/* {!loading && suggestedUsers.map((user) => <SuggestedUser key={user._id} user={user} />)} */}
 				{loading &&
 					[0, 1, 2, 3, 4].map((_, idx) => (
 						<Flex key={idx} gap={2} alignItems={"center"} p={"1"} borderRadius={"md"}>
