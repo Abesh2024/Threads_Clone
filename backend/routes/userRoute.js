@@ -7,7 +7,7 @@ const userRouter = express.Router();
 
 // userRouter.get("/suggested", protectRoute, logics.suggestedUser)
 userRouter.get("/profile/:query", logics.getUserProfile)
-userRouter.post("/signup", logics.suggestedUser)
+userRouter.post("/signup", logics.userSignup)
 userRouter.post("/login", logics.userLogin)
 userRouter.post("/logout", logics.userLogout)
 userRouter.post("/follow/:id", protectRoute, logics.followUnfollow)
