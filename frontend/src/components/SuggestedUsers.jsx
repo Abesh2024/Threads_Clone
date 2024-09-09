@@ -8,29 +8,29 @@ const SuggestedUsers = () => {
     const [suggestedUsers, setSuggestedUsers] = useState([]);
     const toast = toastFun()
 
-    useEffect(()=> {
-        const getSuggestedUsers = async () => {
-			setLoading(true);
-			try {
-				const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/v1/user/suggested`);
-				// console.log(res, "abeshhhhhhhhhh");
-				const data = await res.json();
+    // useEffect(()=> {
+    //     const getSuggestedUsers = async () => {
+	// 		setLoading(true);
+	// 		try {
+	// 			const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/v1/user/suggested`);
+	// 			// console.log(res, "abeshhhhhhhhhh");
+	// 			const data = await res.json();
 				
-				if (data.error) {
-					toast("Error", data.error, "error");
-					// console.log(data.error);
-					return;
-				}
-				setSuggestedUsers(data);
-			} catch (error) {
-				toast("Error", error.message, "error");
-				// console.log("error message");
-			} finally {
-				setLoading(false);
-			}
-		};
-        getSuggestedUsers();
-    }, [toast])
+	// 			if (data.error) {
+	// 				toast("Error", data.error, "error");
+	// 				// console.log(data.error);
+	// 				return;
+	// 			}
+	// 			setSuggestedUsers(data);
+	// 		} catch (error) {
+	// 			toast("Error", error.message, "error");
+	// 			// console.log("error message");
+	// 		} finally {
+	// 			setLoading(false);
+	// 		}
+	// 	};
+    //     getSuggestedUsers();
+    // }, [toast])
 
   return (
     <div>

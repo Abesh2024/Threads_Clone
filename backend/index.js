@@ -11,7 +11,7 @@ import { v2 as cloudinary } from "cloudinary";
 configDotenv();
 const app = express();
 const corsOptions = {
-  origin: ['http://localhost:5173', "http://localhost:10000"], // Frontend URL
+  origin: ['http://localhost:5173', "https://threads-clone-kmud.onrender.com"], // Frontend URL
   credentials: true, // Allow credentials (cookies) to be included
 };
 
