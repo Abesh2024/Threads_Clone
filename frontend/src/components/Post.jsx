@@ -23,7 +23,7 @@ const Post = ({post, postedBy }) => {
     useEffect(() => {
         const getUser = async () => {
             try {
-                const res = await fetch(`https://threads-clone-3-sjc7.onrender.com/v1/user/profile/` + postedBy, {
+                const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/v1/user/profile/` + postedBy, {
                     method: "GET",
                     headers: {
                       "Content-Type": "application/json",
@@ -54,7 +54,7 @@ const Post = ({post, postedBy }) => {
             e.preventDefault();
             if(!window.confirm("this post will be deleated")) return;
 
-            const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}api/post/${post._id}`, {
+            const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}api/post/${post._id}`, {
                 method: "DELETE",
                 headers: {
                     "Content-Type":"application/json"

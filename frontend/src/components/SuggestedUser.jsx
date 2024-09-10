@@ -1,5 +1,6 @@
 import { Avatar, Box, Button, Flex, Text } from '@chakra-ui/react';
 import React from 'react'
+import { Link } from 'react-router-dom';
 import useFollowUnfollow from '../hooks/useFollowUnfollow';
 
 const SuggestedUser = ({ user }) => {

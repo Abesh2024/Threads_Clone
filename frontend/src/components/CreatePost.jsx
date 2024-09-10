@@ -57,7 +57,7 @@ const CreatePost = () => {
     const handleCreatePost = async () => {
         try {
             setLoading("Loading...")
-            const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/post/create-post`, {
+            const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/post/create-post`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

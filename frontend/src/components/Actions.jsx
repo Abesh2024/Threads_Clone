@@ -30,7 +30,7 @@ const Actions = ({ post }) => {
 		if (liking) return
 		setLiking(true)
 		try {
-			const res = await fetch("https://threads-clone-m8if.onrender.com/api/post/like/" + post._id, {
+			const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/post/like/` + post._id, {
 				method: "PUT",
 				headers: {
 					"Content-Type": "application/json"
@@ -78,7 +78,7 @@ const Actions = ({ post }) => {
 			if(replying) return;
 			setReplying(true)
 			try {
-				const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/post/reply/` + post._id, {
+				const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/post/reply/` + post._id, {
 					method: "PUT",
 					headers: {
 						"Content-Type": "application/json"

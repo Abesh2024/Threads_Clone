@@ -13,7 +13,7 @@ const Logout = () => {
 
     const handleLogout = async () => {
         try {
-            const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/v1/user/logout`, {
+            const response = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/v1/user/logout`, {
                 headers: {
                     "Content-Type": "application/json",
                 },

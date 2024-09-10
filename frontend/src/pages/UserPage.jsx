@@ -27,7 +27,7 @@ const UserPage = () => {
     const getPosts = async ()=> {
       setFetchingPosts(true)
       try {
-        const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/post/user/${userId}`, {
+        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/post/user/${userId}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

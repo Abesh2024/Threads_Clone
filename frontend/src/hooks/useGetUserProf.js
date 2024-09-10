@@ -12,7 +12,7 @@ const useGetUserProf = () => {
   useEffect(() => {
     const getUser = async () => {
       try {
-        const res = await fetch(`${process.env.REACT_APP_API_BASE_URL}/v1/user/profile/${userId}`, {
+        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/v1/user/profile/${userId}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

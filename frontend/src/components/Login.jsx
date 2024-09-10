@@ -23,7 +23,7 @@ export default function Login() {
     try {
       // console.log('Login attempt:', input);
 
-      const res = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/v1/user/login`, input, {
+      const res = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/v1/user/login`, input, {
         headers: {
           "Content-Type": "application/json",
         },
