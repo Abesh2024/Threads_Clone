@@ -15,7 +15,6 @@ const Header = () => {
   const user = useRecoilValue(userAtom);
   const logout = useLogout();
 
-  // console.log("User object:", user.username); // Debugging log
 
   return (
     <Flex justifyContent={"space-between"} mt={10} alignItems="center">
@@ -44,7 +43,6 @@ const Header = () => {
         </Button>
         </Flex>
       )}
-
     </Flex>
   );
 };

@@ -1,4 +1,4 @@
-import { Box, Flex, Skeleton, SkeletonCircle } from '@chakra-ui/react';
+import { Box, Flex, Skeleton, SkeletonCircle, Text } from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react'
 import toastFun from '../hooks/showToast';
 import SuggestedUser from './SuggestedUser';
@@ -39,8 +39,8 @@ const SuggestedUsers = () => {
     }, [toast])
 
   return (
-    <div>
-        <h1>Suggested User</h1>
+    <>
+        <Text mb={4} fontWeight={"bold"}>Suggested User</Text>
       <Flex direction={"column"} gap={4}>
 				{!loading && suggestedUsers.map((user) => <SuggestedUser key={user._id} user={user} />)}
 				{loading &&
@@ -62,7 +62,7 @@ const SuggestedUsers = () => {
 						</Flex>
 					))}
 			</Flex>
-    </div>
+    </>
   )
 }
 

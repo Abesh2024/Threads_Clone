@@ -25,9 +25,6 @@ const UserHeader = ({user}) => {
        toast("success", "URL copied to clipard", "success")
     }
 
-    // console.log(user);
-
-
     return (
         <>
             <VStack gap={4} alignItems={"start"}>

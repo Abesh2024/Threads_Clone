@@ -4,7 +4,8 @@ import { useRecoilValue } from 'recoil';
 import userAtom from '../atoms/userAtom';
 
 const useFollowUnfollow = (user) => {
-
+    console.log(user);
+    
     const currentUser = useRecoilValue(userAtom);
     const [following, setFollowing] = useState(user.followers.includes(currentUser?._id));
     const [updating, setUpdating] = useState(false);

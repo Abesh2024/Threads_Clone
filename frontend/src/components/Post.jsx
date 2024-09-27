@@ -156,7 +156,9 @@ const Post = ({post, postedBy }) => {
                     </Flex>
 
                 </Flex>
+                
             </Flex>
+            <hr style={{padding:"10px", marginLeft:"60px", marginRight:"60px"}}/>
         </Link>
     )
 }
