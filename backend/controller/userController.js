@@ -16,7 +16,7 @@ const getUserProfile = async (req, res) => {
         if(mongoose.Types.ObjectId.isValid(query)) {
             user = await UserModel.findOne({_id: query}).select("-password")
         } else {
-         user = await UserModel.findOne({userName: query}).select("-password")
+         user = await UserModel.findOne({email: query}).select("-password")
         }
 
         if(!user) return res.json({error: "user not found with this username"})
@@ -43,18 +43,15 @@ const userSignup = async (req, res) => {
         }
 
         const salt = await bcrypt.genSalt(7);
-        const hashedPassword = await bcrypt.hash(password, salt); // Corrected the order of parameters
+        const hashedPassword = await bcrypt.hash(password, salt); 
 
         const user = new UserModel({
             name,
             email,
             userName,
-            password: hashedPassword, // Ensure password field is correctly mapped
-            // profilePic: user.profilePic
+            password: hashedPassword, 
         });
         await user.save();
-
-        // tokenGenerate(user._id, res);
 
         if (user) {
             tokenGenerate(user._id, res);
@@ -81,19 +78,20 @@ const userSignup = async (req, res) => {
 const userLogin = async (req, res) => {
     try {
         const { userName, password } = req.body;
-        const user = await UserModel.findOne({ userName });
+        const user = await UserModel.findOne({ userName });   //name, userName, email, password
 
         const isPasswordCorrect = await bcrypt.compare(
             password,
             user?.password || ""
         );
-        console.log(user, isPasswordCorrect, "880054");
+        // console.log(user, isPasswordCorrect, "880054");
         if (!user || !isPasswordCorrect)
             return res
                 .status(400)
                 .json({ message: "Invalid username or password" });
 
         tokenGenerate(user._id, res);
+        
 		if (user.isFrozen) {
 			user.isFrozen = false;
 			await user.save();
@@ -134,25 +132,25 @@ const followUnfollow = async (req, res) => {
     try {
         const { id } = req.params;
         const userToModify = await UserModel.findById(id);
-        const currentUser = await UserModel.findById(req.user._id); //from middleware using req.user=user
+        const currentUser = await UserModel.findById(req.user._id);
 
-        if (id === req.user._id.toString())
-            return res
-                .status(400)
-                .json({ error: "You cannot follow/unfollow yourself" });
+        // if (id === req.user._id.toString())
+        //     return res
+        //         .status(400)
+        //         .json({ error: "You cannot follow/unfollow yourself" });
 
         if (!userToModify || !currentUser)
-            return res.status(400).json({ error: "User not found" });
+            return res.status(400).json({ error: "User not found" }); 
 
         const isFollowing = currentUser.following.includes(id);
 
         if (isFollowing) {
             // Unfollow user
             await UserModel.findByIdAndUpdate(id, {
-                $pull: { followers: req.user._id },
+                $pull: { followers: req.user._id },  
             });
             await UserModel.findByIdAndUpdate(req.user._id, {
-                $pull: { following: id },
+                $pull: { following: id }, 
             });
             res.status(200).json({ message: "User unfollowed successfully" });
         } else {
@@ -177,12 +175,7 @@ const updateUserProfile = async (req, res) => {
     const { name, email, userName, bio } = req.body;
     const { id } = req.params;
     let { profilePic } = req.body;
-    // req.user = user
-    // console.log(req.body);
-    // console.log(req.body);
-    // console.log(req.user._id, "USER___ID");
-    console.log(req.user, "req.user,,,,,,,,,,>>>>>>>");
-    console.log(req.params.id);
+
     try {
         const user = await UserModel.findOne({ _id: req.user["_id"] });
 
@@ -198,11 +191,11 @@ const updateUserProfile = async (req, res) => {
                 .json({ message: "You cannot update another user's profile" });
         }
 
-        // if (password) {
-        //     const salt = bcrypt.genSaltSync(7);
-        //     const hashPass = bcrypt.hashSync(password, salt);
-        //     user.password = hashPass;
-        // }
+        if (password) {
+            const salt = bcrypt.genSaltSync(7);
+            const hashPass = bcrypt.hashSync(password, salt);
+            user.password = hashPass;
+        }
 
         if (profilePic) {
             if (user.profilePic) {
