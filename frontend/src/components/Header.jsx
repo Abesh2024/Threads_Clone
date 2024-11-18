@@ -23,13 +23,15 @@ const Header = () => {
           <AiFillHome size="24" style={{ marginRight: "10px" }} /> {/* Add size and margin */}
         </Link>
       )}
+      
       <Image
         cursor={"pointer"}
         w={6}
         mb={4} // Adding margin-bottom
         src={colorMode === "dark" ? lightLogo : darkLogo}
         onClick={toggleColorMode}
-      />
+        />
+        
 
       {user && (
         <Flex alignItems={"center"} gap={4}>

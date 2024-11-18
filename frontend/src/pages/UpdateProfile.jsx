@@ -74,7 +74,7 @@ export default function UpdateProfile() {
       toast("Success", "Profile updated successfully", "success");
       setUser(data.user);
       localStorage.setItem("user-threads", JSON.stringify(data.user));
-      navigate(`/${user.userName}`)
+      navigate(`/${user._id}`)
     } catch (error) {
 
       toast("Error", error.message || error, "error");

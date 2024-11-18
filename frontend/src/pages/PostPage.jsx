@@ -22,7 +22,7 @@ const PostPage = () => {
   const currentUser = useRecoilValue(userAtom)
   const navigate = useNavigate()
 
-  const currentPost = posts[0];
+  // const currentPost = posts[0];
 
   useEffect(() => {
     const getPost = async () => {
@@ -53,7 +53,7 @@ const PostPage = () => {
     try {
         if(!window.confirm("this post will be deleated")) return;
 
-        const res = await fetch(`https://threads-clone-m8if.onrender.com/api/post/${currentPost._id}`, {
+        const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/post/${posts._id}`, {
             method: "DELETE",
             headers: {
                 "Content-Type":"application/json"
