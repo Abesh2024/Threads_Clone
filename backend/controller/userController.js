@@ -16,7 +16,7 @@ const getUserProfile = async (req, res) => {
         if(mongoose.Types.ObjectId.isValid(query)) {
             user = await UserModel.findOne({_id: query}).select("-password")
         } else {
-         user = await UserModel.findOne({userName: query}).select("-password")
+         user = await UserModel.findOne({email: query}).select("-password")
         }
 
         if(!user) return res.json({error: "user not found with this username"})
